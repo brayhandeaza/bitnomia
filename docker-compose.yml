@@ -1,0 +1,32 @@
+version: '3.8'
+services: 
+  # blockchain
+  blockchain:
+    build: ./
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000
+    command: npm run dev
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    networks:
+      - main_network
+
+  # mongo
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - .env
+    volumes:
+      - ./:/app/data/db
+    networks:
+      - main_network
+
+networks:
+  main_network:
