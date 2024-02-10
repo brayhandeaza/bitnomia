@@ -1,18 +1,8 @@
 import { BITNOMIA_WALLET_PRIVATE_KEY, BITNOMIA_WALLET_PUBLIC_KEY } from "../constants";
 import { db } from "../db";
+import { BlockType } from "../helpers/types";
 import Utils from "../utils"
 import Wallets from "../wallets"
-
-// BlockType
-type BlockType = {
-    block_number: number,
-    timestamp: number,
-    last_hash: string,
-    hash: string,
-    transactions: any[],
-    validator: string,
-    signature: string
-}
 
 class Block {
     block_number: number;
