@@ -1,5 +1,6 @@
 import elliptic from 'elliptic';
 import Utils from '../utils';
+import { WalletType } from '../helpers/types';
 
 
 const EC = elliptic.ec;
@@ -18,11 +19,11 @@ class Wallets {
         this.privateKey = privateKeyHex;
     }
 
-    static createWallet() {
+    static createWallet(): WalletType {
         return new Wallets().toJSON()
     }
 
-    toJSON() {
+    toJSON(): WalletType {
         return {
             public_key: this.publicKey,
             private_key: this.privateKey,
@@ -30,13 +31,13 @@ class Wallets {
         }
     }
 
-    static sign(data: string, privateKey: string) {
+    static sign(data: string, privateKey: string): string {
         const key = ec.keyFromPrivate(privateKey, 'hex');
         const signature = key.sign(data, { canonical: true });
         return signature.toDER('hex');
     }
 
-    static verify = (message: string, signature: string, privateKey: string) => {
+    static verify = (message: string, signature: string, privateKey: string): boolean => {
         const keyPair = ec.keyFromPrivate(privateKey, 'hex');
         const publicKeyCompressed = keyPair.getPublic('hex', 'compressed');
 
@@ -46,7 +47,7 @@ class Wallets {
         return verified
     }
 
-    static recoverPublicKeyFromPrivateKey = (privateKey) => {
+    static recoverPublicKeyFromPrivateKey = (privateKey: string): string => {
         const keyPair = ec.keyFromPrivate(privateKey, 'hex');
         const publicKeyCompressed = keyPair.getPublic('hex', 'compressed');
         return Utils.hash(publicKeyCompressed);

@@ -18,3 +18,8 @@ export type TransactionType = {
     status: string
 }
 
+export type WalletType = {
+    public_key: string
+    private_key: string
+    balance: number
+}
