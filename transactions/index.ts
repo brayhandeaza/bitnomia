@@ -1,7 +1,6 @@
 import { TransactionType } from "../helpers/types";
 import Utils from "../utils";
 
-
 class Transactions {
 	sender: string;
 	receiver: string;

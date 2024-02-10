@@ -61,7 +61,7 @@ class Block {
         return block.toJSON()
     }
 
-    static createBlock = async (validator: string, transactions: any[] = [], _blockNumber: number = null) => {
+    static createBlock = async (validator: string, transactions: any[] = [], _blockNumber: number = null): Promise<BlockType | false> => {
         try {
             const lastBlock = await db.collection("blocks").find({}).sort({ block_number: -1 }).limit(1).next()
 
@@ -102,7 +102,6 @@ class Block {
             return false
         }
     }
-
 
     sign(signature: string): void {
         this.signature = signature;
