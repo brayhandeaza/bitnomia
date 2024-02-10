@@ -75,9 +75,11 @@ class RPCBlockchain {
         }
     }
 
-    static isChainValid() {
+    static isChainValid = async () => {
         try {
-            const isChainValid = Blockchain.isChainValid()
+            await Blockchain.canAddBlock()
+
+            const isChainValid = await Blockchain.isChainValid()
             if (isChainValid)
                 return {
                     jsonrpc: "2.0",

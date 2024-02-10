@@ -1,5 +1,5 @@
 import md5 from "md5"
-import {BITNOMIA_WALLET_PRIVATE_KEY, BITNOMIA_WALLET_PUBLIC_KEY, TRANSACTION_FEE_PERCENTAGE, VALIDATING_REWARD } from "../constants"
+import { BITNOMIA_WALLET_PRIVATE_KEY, BITNOMIA_WALLET_PUBLIC_KEY, TRANSACTION_FEE_PERCENTAGE, VALIDATING_REWARD } from "../constants"
 import { db } from "../db"
 import PoS from "../pos"
 import Transactions from "../transactions"
@@ -65,6 +65,16 @@ class Blockchain {
         }
     }
 
+    static canAddBlock = async () => {
+        const lastBlock = await db.collection("blocks").find({}).sort({ block_number: -1 }).limit(1).next()
+        const pendingTransactions = await Blockchain.getPendingTransactions("pending")
+
+        // check if the last block is older than 5 minutes
+        console.log(lastBlock.timestamp < Date.now() - 5 * 60 * 1000);
+        
+        return pendingTransactions.length > 0
+    }
+
     static addBlock = async () => {
         try {
             if (Blockchain.isChainValid()) {
@@ -72,9 +82,9 @@ class Blockchain {
                 const validator = await pos.validator()
 
                 const transactions = await Blockchain.getPendingTransactions("success")
-                const block = await Block.createBlock(validator, transactions)
 
-                if (transactions.length > 0) {
+                if (transactions.length > 1) {
+                    const block = await Block.createBlock(validator, transactions)
                     await Blockchain.executeTransactions(transactions)
                     await Blockchain.transferReward(validator)
 
@@ -101,8 +111,7 @@ class Blockchain {
 
                 return false
             } else {
-                const invalidBlock = Block.createBlock(BITNOMIA_WALLET_PUBLIC_KEY)
-
+                const invalidBlock = await Block.createBlock(BITNOMIA_WALLET_PUBLIC_KEY)
                 await db.collection("corructed_block").insertOne({
                     ...invalidBlock,
                     status: "failed"
@@ -115,7 +124,6 @@ class Blockchain {
             }
 
         } catch (error) {
-            console.log("addBlock", error);
             return false
         }
     }
@@ -228,24 +236,25 @@ class Blockchain {
         try {
             const blocks = await db.collection("blocks").find({}).limit(200).toArray()
 
-            if (!blocks) return false
+            if (blocks.length > 0) {
+                if (blocks[0]["last_hash"] != Utils.hash("genesis")) return false
 
-            if (blocks[0]["last_hash"] != Utils.hash("genesis")) return false
+                if (blocks[0]["last_hash"] == Utils.hash("genesis")) return true
 
-            if (blocks[0]["last_hash"] == Utils.hash("genesis")) return true
+                const validationSignature = await db.collection("validators").find({}).sort({ timestamp: -1 }).limit(1).next()
 
-            const validationSignature = await db.collection("validators").find({}).sort({ timestamp: -1 }).limit(1).next()
+                if (validationSignature) {
+                    const hash = Utils.hash(JSON.stringify(blocks))
+                    const verify = Wallets.verify(
+                        BITNOMIA_WALLET_PUBLIC_KEY,
+                        String(validationSignature["signature"]),
+                        hash
+                    )
 
-            if (validationSignature) {
-                const hash = Utils.hash(JSON.stringify(blocks))
-                const verify = Wallets.verify(
-                    BITNOMIA_WALLET_PUBLIC_KEY,
-                    String(validationSignature["signature"]),
-                    hash
-                )
-
-                return verify
+                    return verify
+                }
             }
+
             return false
 
         } catch (error) {

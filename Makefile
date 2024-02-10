@@ -1,7 +1,6 @@
 # Variables
 DOCKER = docker
 
-
 up:
 	$(DOCKER) compose up 
 

@@ -8,6 +8,7 @@ import Block from "./blockchain/blocks"
 import { serve, setup, swaggerSpec } from "./swagger"
 import { GENESIS_WALLETS } from "./constants"
 
+
 // const doc = require('./swagger/data.json');
 const app: Express = express()
 
