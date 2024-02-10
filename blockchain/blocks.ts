@@ -3,6 +3,7 @@ import { db } from "../db";
 import Utils from "../utils"
 import Wallets from "../wallets"
 
+// BlockType
 type BlockType = {
     block_number: number,
     timestamp: number,
