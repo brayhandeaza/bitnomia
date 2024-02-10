@@ -7,7 +7,8 @@ import server from './rpc'
 import Block from "./blockchain/blocks"
 import { serve, setup, swaggerSpec } from "./swagger"
 import { GENESIS_WALLETS } from "./constants"
-
+import cluster from "cluster"
+import os from "os"
 
 // const doc = require('./swagger/data.json');
 const app: Express = express()
@@ -33,16 +34,37 @@ app.post("/", (req, res) => {
     });
 });
 
-
-client.connect().then(async () => {
-    console.log("Connected to MongoDB")
-    // await db.collection("wallets").insertMany(GENESIS_WALLETS)
-    // await db.collection("blocks").insertOne(Block.genesis())
-
-    app.listen(process.env.PORT || 3000, async () => {
-        console.log("Listening on http://localhost:3000")
+if (cluster.isPrimary) {
+    os.cpus().forEach(() => {
+        cluster.fork()
     })
 
-}).catch((error) => {
-    console.log(error)
-})
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`worker ${worker.process.pid} died`);
+    })
+} else {
+
+    client.connect().then(async () => {
+        console.log("Connected to MongoDB")
+        const genesis = await db.collection("blocks").findOne({ block_number: 0 })
+        if (!!!genesis) {
+            await db.collection("blocks").insertOne(Block.genesis())
+            console.log("Genesis block inserted");
+        }
+
+        GENESIS_WALLETS.forEach(async ({ public_key, private_key, balance }) => {
+            const wallet = await db.collection("wallets").findOne({ public_key, private_key })
+            if (!!!wallet) {
+                await db.collection("wallets").insertOne({ public_key, private_key, balance })
+                console.log("Genesis wallets inserted");
+            }
+        })
+
+        app.listen(process.env.PORT || 3000, async () => {
+            console.log(`Worker ${process.pid} listening on http://localhost:3000`)
+        })
+
+    }).catch((error) => {
+        console.log(error)
+    })
+}

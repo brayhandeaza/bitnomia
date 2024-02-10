@@ -3,6 +3,16 @@ import { db } from "../db";
 import Utils from "../utils"
 import Wallets from "../wallets"
 
+type BlockType = {
+    block_number: number,
+    timestamp: number,
+    last_hash: string,
+    hash: string,
+    transactions: any[],
+    validator: string,
+    signature: string
+}
+
 class Block {
     block_number: number;
     timestamp: number;
@@ -22,7 +32,7 @@ class Block {
         this.signature = '';
     }
 
-    toJSON(): any {
+    toJSON(): BlockType {
         return {
             "block_number": this.block_number,
             "timestamp": this.timestamp,
@@ -34,7 +44,7 @@ class Block {
         };
     }
 
-    static genesis(): any {
+    static genesis(): BlockType {
         const timestamp = Date.now();
         const last_hash = Utils.hash('genesis');
         const hash = Utils.hash(JSON.stringify({

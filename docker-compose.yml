@@ -30,3 +30,4 @@ services:
 
 networks:
   main_network:
+    driver: bridge
