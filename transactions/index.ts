@@ -1,8 +1,8 @@
+import { TransactionType } from "../helpers/types";
 import Utils from "../utils";
 
 
 class Transactions {
-
 	sender: string;
 	receiver: string;
 	amount: number;
@@ -19,7 +19,7 @@ class Transactions {
 		this.signature = '';
 	}
 
-	toJSON(): any {
+	toJSON(): TransactionType {
 		return {
 			"sender": this.sender,
 			"receiver": this.receiver,
