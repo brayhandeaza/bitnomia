@@ -1,4 +1,4 @@
-export const pathsGenerator = (method: string, tags: string, description: string, params: any = {}) => {
+export const pathsGenerator = (method: string, tags: string, description: string, params: any = {}, parameters: any = []) => {
     return {
         post: {
             tags: [tags],
@@ -32,6 +32,7 @@ export const pathsGenerator = (method: string, tags: string, description: string
                     }
                 }
             },
+            parameters,
             responses: {
                 "200": {
                     "description": "Successful operation",

@@ -23,7 +23,10 @@ app.get("/", async (req, res) => {
     const block = await Block.genesis()
     console.log(block);
 
-    res.json({ block })
+    res.json({ 
+        block,
+        host: process.env.HOST
+     })
 })
 
 

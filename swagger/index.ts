@@ -8,7 +8,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: "Brayhan's Blockchain API",
+            title: "Bitnomia's Blockchain JSONRPC-API",
             version: '1.0.0',
         },
         "Order": {
@@ -24,7 +24,7 @@ const options = {
             }
         }
     },
-    host: "http://localhost:3000/json-rpc",
+    host: `${process.env.HOST}/json-rpc`,
     basePath: "/",
     apis: [__filename],
     paths: {},
