@@ -6,8 +6,8 @@ const MONGODB_PASSWORD: string = process.env.MONGO_INITDB_ROOT_PASSWORD;
 const MONGODB_DATABASE: string = process.env.MONGO_INITDB_ROOT_DATABASE;
 const MONGODB_PORT: number = Number(process.env.ME_CONFIG_MONGODB_PORT);
 const MONGODB_HOST: string = process.env.ME_CONFIG_MONGODB_HOST;
-const MONGODB_URL: string = `mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}:${MONGODB_PORT}`;
-
+const MONGODB_URL: string = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOST}`;
+// mongodb+srv://brayhandeaza:<password>@cluster0.n9jebes.mongodb.net/?retryWrites=true&w=majority
 // General
 const INITIAL_MARKET_CAP: number = 1e7;
 const INITIAL_SUPPLY: number = 10e9;

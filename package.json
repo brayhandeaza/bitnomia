@@ -7,11 +7,10 @@
     "@types/node": "^18.11.18",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "dev": "nodemon app.ts",
     "start": "ts-node app.ts"
   },
   "dependencies": {

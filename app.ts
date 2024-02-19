@@ -18,24 +18,13 @@ app.use('/docs', serve, setup(swaggerSpec));
 app.use(bodyParser.json())
 app.use(cors())
 
-
-app.get("/", async (req, res) => {
-    const block = await Block.genesis()
-    console.log(block);
-
-    res.json({ 
-        block,
-        host: process.env.HOST
-     })
-})
-
-
 app.post("/", (req, res) => {
     const jsonRPCRequest = req.body;
     server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
         res.json(jsonRPCResponse)
     });
 });
+
 
 if (cluster.isPrimary) {
     os.cpus().forEach(() => {
@@ -63,11 +52,12 @@ if (cluster.isPrimary) {
             }
         })
 
-        app.listen(process.env.PORT || 3000, async () => {
-            console.log(`Worker ${process.pid} listening on http://localhost:3000`)
-        })
 
     }).catch((error) => {
         console.log(error)
+    })
+
+    app.listen(process.env.PORT || 3000, async () => {
+        console.log(`Worker ${process.pid} listening on http://localhost:3000`)
     })
 }
