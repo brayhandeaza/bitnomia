@@ -3,6 +3,8 @@ version: '3.4'
 services:
   bitnomia:
     image: bitnomia
+    depends_on:
+      - mongo
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -11,3 +13,12 @@ services:
       
     ports:
       - 3000:3000
+
+  # MongoDB
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    env_file:
+      - .env
+      
