@@ -23,6 +23,13 @@ app.post("/", (req, res) => {
     });
 });
 
+app.get("/", (req, res) => {
+    res.json({
+        message: "Welcome to bitnomia",
+        version: "1.0.0"
+    })
+})
+
 
 client.connect().then(async () => {
     console.log("Connected to MongoDB")

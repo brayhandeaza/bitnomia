@@ -5,38 +5,41 @@
 
 #### Prerequisites
 
-- Docker installed on your system
+- Docker need to be installed on your system
 
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/project.git
+git clone https://github.com/brayhandeaza/bitnomia
 ```
 
 #### Navigate to the Project Directory
 
 ```bash
-cd project
+cd bitnomia/
 ```
 
 #### Run Docker Compose
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 This command will build and start the Docker containers specified in the `docker-compose.yml` file.
 
 #### Access the Application
 
-Once the Docker containers are up and running, you can access the application by navigating to http://localhost:port in your web browser, where `port` is the port specified in the `docker-compose.yml` file for the application container.
+Once the Docker containers are up and running, you can access the application by navigating to http://localhost:3000 in your web browser, where `3000` is the port specified in the `docker-compose.yml` file for the application container.
+
+Swagger documentation can be accessed at http://localhost:3000/docs. This provides detailed documentation for the API endpoints and allows for testing them directly from the browser.
 
 ### Shutting Down the Project
 
-To stop the project and remove the Docker containers, press `Ctrl + C` in the terminal where you ran `docker-compose up`. Then, run the following command:
+To stop the project and remove the Docker containers, press `Ctrl + C` in the terminal where you ran `docker compose down --rmi all`.
 
 ```bash
-docker-compose down
+docker compose down --rmi all
 ```
 
-This will stop and remove the containers, but it will preserve your project files.
+This will stop and remove the docker containers with all their volumes and images.
+
