@@ -35,7 +35,7 @@ Swagger documentation can be accessed at http://localhost:3000/docs. This provid
 
 
 ### Screenshots
-<img src="https://github.com/brayhandeaza/bitnomia/blob/main/screenshots/1.png">
+<img src="https://github.com/brayhandeaza/bitnomia/blob/main/blockchain.gif?raw=true">
 
 
 ### Shutting Down the Project
