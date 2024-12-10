@@ -1,6 +1,6 @@
-FROM node:lts-alpine
+FROM node:20.13.1
 
-WORKDIR /usr/src/app
+WORKDIR /app
 ENV NODE_ENV=production
 
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
@@ -10,7 +10,7 @@ RUN npm install -g ts-node
 COPY . .
 
 EXPOSE 3000
-RUN chown -R node /usr/src/app
+RUN chown -R node /app
 USER node
 
 CMD ["npm", "start"]

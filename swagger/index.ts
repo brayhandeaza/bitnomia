@@ -8,7 +8,7 @@ const options = {
     definition: {
         openapi: '3.0.0',
         info: {
-            title: "Bitnomia's Blockchain JSONRPC-API",
+            title: "Brayhan's Blockchain JSONRPC-API",
             version: '1.0.0',
         },
         "Order": {

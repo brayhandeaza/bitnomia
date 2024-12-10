@@ -12,7 +12,7 @@ const stake = {
 
 export default {
     "/        ": pathsGenerator("create_wallet", "Wallets", "Creates a new wallet."),
-    "/         ": pathsGenerator("get_wallet_balance", "Wallets", "Returns the wallet balance."),
+    "/         ": pathsGenerator("get_wallet_balance", "Wallets", "Returns the wallet balance.",{ "public_key": wallets[0] }),
     "/          ": pathsGenerator("get_wallet_balance_in_batch", "Wallets", "Returns balances in batch", { "wallets": wallets }),
     "/           ": pathsGenerator("get_wallet_transactions", "Wallets", "Returns all the transactions in a wallet.", { "public_key": wallets[0] }),
     "/            ": pathsGenerator("get_wallet_by_private_key", "Wallets", "Gets a wallet info by private key.", { "private_key": "85213fcc895c4b50a62158007a7da4de9bafca5eae890b72e474797e9cbc273c" }),

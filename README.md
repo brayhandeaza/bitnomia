@@ -33,6 +33,10 @@ Once the Docker containers are up and running, you can access the application by
 
 Swagger documentation can be accessed at http://localhost:3000/docs. This provides detailed documentation for the API endpoints and allows for testing them directly from the browser.
 
+
+### Screenshots
+<img src="https://i.ibb.co/bPms6RS/blockchain.gif">
+
 ### Shutting Down the Project
 
 To stop the project and remove the Docker containers, press `Ctrl + C` in the terminal where you ran `docker compose down --rmi all`.
